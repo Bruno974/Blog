@@ -1,0 +1,81 @@
+{% extends 'baseBlog.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/commentaire.css') }}">
+{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <header class="intro-header" style="background-image: url('{{ asset('img/about-bg.jpg') }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>{{ episode.titre}}</h1>
+                        <hr class="small">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu de l'épisode -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 place">
+
+                <div class="col-md-12">
+                    {% for message in app.session.flashbag.get('info') %}
+                        <p class="alert alert-info">{{ message }}</p>
+                    {% endfor %}
+                </div>
+
+                {% autoescape %}
+                    <p>{{ episode.contenu|raw}}</p>
+                {% endautoescape %}
+
+                <div class="post-preview">
+                    <p class="post-meta">Posté par <a href="#">Jean Forteroche</a> le {{ episode.date|localizeddate('full', 'short') }}</p>
+                </div>
+
+                {% if commentaires != null %}
+                    <h3>Commentaires:</h3>
+                    {% set compteur = 0 %}
+                    {% include "blog/arbreCommentaire.html.twig" with {'commentaires':commentaires, 'compteur': compteur} only %}
+                {% endif %}
+
+                <div class="formulaire">
+                    <h3>Ajouter un commentaire:</h3>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {{ form_start(form) }}
+                        {#{{ form_widget(form.parent_id, {'value': 0}) }}#}
+                        <div class="form-group">
+                            {{ form_errors(form.texteCommentaire) }}
+                            {{ form_widget(form.texteCommentaire, { 'attr':  {
+                                'rows': '4',
+                                'class': 'form-control',
+                                'minlength': '10',
+                                'placeholder': 'Votre commentaire:'
+                            }}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.Publier,  { 'attr':  {
+                                'rows': '4',
+                                'class': 'btn btn-primary'
+                            }})}}
+                            <button class="btn btn-danger  btn-xs  annuler" style="display: none">Annuler</button>
+                        </div>
+                        {{ form_end(form) }}
+                    {% else %}
+                        <a href="{{ path('login') }}">Se connecter</a> pour ajouter un commentaire.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+  {% block javascripts %}
+     <script src="{{ asset('js/form.js') }}"></script>
+ {% endblock %}

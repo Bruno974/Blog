@@ -1,0 +1,149 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body %}
+
+    <h2 class="text-center">Inscription</h2>
+
+    <div class="well">
+
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal formValidation'} }) }}
+
+        <div class="form-group">
+            {{ form_label(form.username, 'Pseudo', { 'label_attr':  {
+                'class': 'col-sm-5 control-label'}})}}
+            <div class="col-sm-4 pseudo">
+                {#{{ form_errors(form.username) }}#}
+                {{ form_widget(form.username, { 'id' : 'prenom', 'attr':
+                    {'class' : 'form-control', 'placeholder' : 'Minimum 3 caractères'}
+                })
+                }}
+                {{ form_errors(form.username) }}
+                <span id="erreurPseudo" style="color: red; display: none">Le pseudo doit faire minimun 3 caractères et ne pas contenir de caractères spéciaux.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.password.first, 'Mot de passe', { 'label_attr':  {
+                'class': 'col-sm-5 control-label'}})}}
+            <div class="col-sm-4">
+                {{ form_widget(form.password.first, { 'attr':  {
+                    'class': 'form-control mdp', 'placeholder' : 'Minimum 8 caractères'
+                }}) }}
+                {{ form_errors(form.password.first) }}
+                <span id="erreurmdp1" style="color: red; display: none">Le mot de passe doit faire minimun 8 caractères.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.password.second, 'Repeter mot de passe', { 'label_attr':  {
+                'class': 'col-sm-5 control-label'}})}}
+            <div class="col-sm-4">
+                {{ form_widget(form.password.second, { 'attr':  {
+                    'class': 'form-control mdp2', 'placeholder' : 'Minimum 8 caractères'
+                }}) }}
+                {{ form_errors(form.password.second) }}
+                <span id="erreurmdp2" style="color: red; display: none">Le mot de passe doit faire minimun 8 caractères.</span>
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            {{ form_label(form.roles, null, { 'label_attr':  {
+                'class': 'col-sm-5 control-label'
+            }}) }}
+            <div class="col-sm-2">
+                {{ form_errors(form.roles) }}
+                {{ form_widget(form.roles, { 'attr':  {
+                    'class': 'form-control',
+                    'selected' : 'User'
+                }}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-3">
+                <input type="submit" class="btn btn-primary" value="Valider" id="submitForm" />
+                <a href="{{ path('home_page', { 'page': 1 }) }}" class="btn btn-danger">Annuler</a>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}
+
+ {% block js_enfant %}
+     <script>
+         $(function(){
+
+            var $prenomVal;
+            var $mdpPreVal;
+            var $mdpSecVal;
+
+             $('#submitForm').hide();
+
+             $("#prenom").keyup(function() {
+                if(!$('#prenom').val().match(/^[a-z0-9]{3,}$/i)) //Minimum 3 caractère, pas de caractères spéciaux, chiffres autorisé.
+                {
+                    $('#erreurPseudo').show();
+                    $('.pseudo ul').hide();
+                    $prenomVal = false;
+                    valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                }
+                else
+                {
+                    $('#erreurPseudo').hide();
+                    $prenomVal = true;
+                    valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                }
+             });
+
+             $(".mdp").keyup(function() {
+                 if(!$('.mdp').val().match(/^[a-z0-9]{8,}$/i)) //Minimum 3 caractère, pas de caractères spéciaux, chiffres autorisé.
+                 {
+                     $('#erreurmdp1').show();
+                     $mdpPreVal = false;
+                     valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                 }
+                 else
+                 {
+                     $('#erreurmdp1').hide();
+                     $mdpPreVal = true;
+                     valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                 }
+             });
+
+             $(".mdp2").keyup(function() {
+                 if(!$('.mdp2').val().match(/^[a-z0-9]{8,}$/i)) //Minimum 3 caractère, pas de caractères spéciaux, chiffres autorisé.
+                 {
+                     $('#erreurmdp2').show();
+                     $mdpSecVal = false;
+                     valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                 }
+                 else
+                 {
+                     $('#erreurmdp2').hide();
+                     $mdpSecVal = true;
+                     valider($prenomVal,$mdpPreVal,$mdpSecVal);
+                 }
+             });
+
+             if(document.load() == true)
+             {
+                 alert('ok');
+             }
+
+             function valider($prenomVal, $mdpPreVal, $mdpSecVal)
+             {
+                 console.log($prenomVal,$mdpPreVal );
+                 if($prenomVal == true && $mdpPreVal == true && $mdpSecVal == true)
+                 {
+                     $('#submitForm').show();
+                 }
+                 else
+                 {
+                     $('#submitForm').hide();
+                 }
+             }
+         });
+     </script>
+ {% endblock %}

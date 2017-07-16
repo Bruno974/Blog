@@ -1,0 +1,25 @@
+{% set compteur = compteur + 1 %}
+{% for commentaire in commentaires  %}
+    <div class="commentaire"  id="comment-{{ commentaire.id }}">
+        <div> <strong>{{ commentaire.user.username }}</strong> le {{  commentaire.date|localizeddate('full', 'short') }} a commenté: <br>
+            <i>{{ commentaire.texteCommentaire }}</i>
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="text-right">
+                    {% if compteur != 4 %}
+                        <button class="btn btn-primary  btn-xs reply" data-id="{{ commentaire.id }}">Répondre</button>
+                    {% endif %}
+                    <a href="{{ path('signaler_commentaire', {'id': commentaire.id}) }}" class="btn btn-warning text-right">Signaler</a>
+                </div>
+            {% else %}
+                <p></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if commentaire.children %}
+        <ul>
+            {% include "blog/arbreCommentaire.html.twig" with {'commentaires': commentaire.children} %}
+        </ul>
+    {% endif %}
+{% endfor %}

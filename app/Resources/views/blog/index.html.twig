@@ -1,0 +1,61 @@
+{% extends 'baseBlog.html.twig' %}
+
+{% block body %}
+    <!-- Page Header -->
+    <header class="intro-header" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Jean Forteroche</h1>
+                        <hr class="small">
+                        <span class="subheading">Acteur et écrivain</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                {% for episode in episodes %}
+
+                    <div class="post-preview">
+                        <a href="{{ path('episode', {'id': episode.id}) }}">
+                            <h2 class="post-title">
+                                {% autoescape %}
+                                    {{ episode.titre }}
+                                {% endautoescape %}
+                            </h2>
+
+                            <h5 class="post-subtitle">
+                                {% autoescape %}
+                                    {{ episode.contenu|truncate(850)|raw }}
+                                {% endautoescape %}
+                            </h5>
+                        </a>
+                        <br>
+                        <p class="post-meta">Posté par <a href="#">Jean Forteroche</a> le {{  episode.date|localizeddate('full', 'short') }} </p>
+                        <div class="text-right">
+                            <a href="{{ path('episode', {'id': episode.id}) }}" class="btn btn-primary" style="color: white">Lire la suite</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <ul class="pager">
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nbPages) %}
+            <li{% if p == page %} class="active"{% endif %}>
+                <a href="{{ path('home_page', {'page': p}) }}">{{ p }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
