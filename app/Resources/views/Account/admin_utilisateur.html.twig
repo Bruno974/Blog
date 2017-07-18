@@ -12,47 +12,45 @@
                 {% for utilisateur in utilisateurs %}
                     <tr>
                         <td>{{ utilisateur.username }}</a></td>
-
-                        <td>
-                            {% for role in   utilisateur.roles %}
-                                {% if role == 'ROLE_SUPER_ADMIN' %}
-                                    Super_Admin
-                                {% elseif role == 'ROLE_ADMIN'  %}
-                                    Admin
-                                {% else %}
-                                    User
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for role in   utilisateur.roles %}
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% for role in   utilisateur.roles %}
+                            <td>
                                     {% if role == 'ROLE_SUPER_ADMIN' %}
+                                        Super_Admin
+                                    {% elseif role == 'ROLE_ADMIN'  %}
+                                        Admin
                                     {% else %}
-                                        {# <a href="{{ path('gb_blog_editUtilisateur', {'id': utilisateur.id}) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>#}
-                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer" data-toggle="modal" data-target="#userDialog{{ utilisateur.id }}"><span class="glyphicon glyphicon-remove"></span>
-                                        </button>
+                                        User
                                     {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            <div class="modal fade" id="userDialog{{ utilisateur.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            Voulez-vous vraiment supprimmer cette utilisateur?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                            <a href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-danger">Confirmer</a>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                        </td>
+
+                            </td>
+                            <td>
+                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                        {% if role == 'ROLE_SUPER_ADMIN' %}
+                                        {% else %}
+                                            {# <a href="{{ path('gb_blog_editUtilisateur', {'id': utilisateur.id}) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>#}
+                                            <button type="button" class="btn btn-danger btn-xs" title="Supprimer" data-toggle="modal" data-target="#userDialog{{ utilisateur.id }}"><span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        {% endif %}
+                                    {% endif %}
+                        {% endfor %}
+                                <div class="modal fade" id="userDialog{{ utilisateur.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Voulez-vous vraiment supprimmer cette utilisateur?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                                <a href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-danger">Confirmer</a>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                            </td>
                     </tr>
                 {% endfor %}
             </table>
