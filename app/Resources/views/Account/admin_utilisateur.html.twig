@@ -13,13 +13,14 @@
                         <td>{{ utilisateur.username }}</a></td>
                         {% for role in   utilisateur.roles %}
                             <td>
-                                    {% if role == 'ROLE_SUPER_ADMIN' %}
+                                {{ role }}
+                                 {#   {% if role == 'ROLE_SUPER_ADMIN' %}
                                         Super_Admin
                                     {% elseif role == 'ROLE_ADMIN'  %}
                                         Admin
                                     {% else %}
                                         User
-                                    {% endif %}
+                                    {% endif %}#}
 
                             </td>
                             <td>
