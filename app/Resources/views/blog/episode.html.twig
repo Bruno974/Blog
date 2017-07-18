@@ -30,9 +30,9 @@
                     {% endfor %}
                 </div>
 
-
-                    <p>{{ episode.contenu|raw}}</p>
-               
+                {% autoescape %}
+                    <p>{{ episode.contenu|html}}</p>
+                {% endautoescape %}
 
                 <div class="post-preview">
                     <p class="post-meta">Posté par <a href="#">Jean Forteroche</a> le {{ episode.date|localizeddate('full', 'short') }}</p>

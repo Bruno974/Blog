@@ -33,7 +33,7 @@
 
                             <h5 class="post-subtitle">
                                 {% autoescape %}
-                                    {{ episode.contenu|truncate(850)|raw }}
+                                    {{ episode.contenu|truncate(850)|html }}
                                 {% endautoescape %}
                             </h5>
                         </a>
