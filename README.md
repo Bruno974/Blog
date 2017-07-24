@@ -1,3 +1,4 @@
-Projet 04 de la formation Openclassrooms.
+Projet 03
+=========
 
-Créez un blog pour un écrivain
+Créez un blog pour un écrivain.
